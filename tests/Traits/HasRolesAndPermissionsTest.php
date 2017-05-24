@@ -11,7 +11,7 @@ use PhalconRoles\Tests\Stubs\Users;
 
 class HasRolesAndPermissionsTest extends TestCase
 {
-    public function testAttachPermission()
+    public function testAttachRole()
     {
         /** @var Roles $roleA */
         /** @var Roles $roleB */
