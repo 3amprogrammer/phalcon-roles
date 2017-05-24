@@ -1,0 +1,29 @@
+{
+    "name": "3amprogrammer/phalcon-roles",
+    "description": "Simple package for handling roles and permissions in Phalcon 3.",
+    "keywords": ["roles", "permissions", "acl", "auth", "phalcon"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kamil Latosiński",
+            "email": "kamil.latosinski@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "phalcon/incubator": "^3.1",
+        "phalcon/devtools": "^3.1",
+        "league/factory-muffin": "^3.0",
+        "league/factory-muffin-faker": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhalconRoles\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhalconRoles\\Tests\\": "tests/"
+        }
+    }
+}
