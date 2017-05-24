@@ -8,7 +8,7 @@ use PhalconRoles\Models\Roles;
 interface AuthorizationInterface
 {
     /**
-     * Return the related roles
+     * Return the related roles.
      *
      * @param array $parameters
      * @return Roles[]
@@ -16,7 +16,7 @@ interface AuthorizationInterface
     public function getRoles($parameters = null);
 
     /**
-     * Check if the user has a role
+     * Check if the user has a role.
      *
      * @param string $role
      * @return bool
@@ -63,6 +63,13 @@ interface AuthorizationInterface
     public function detachAllRoles();
 
     /**
+     * Return the related permissions.
+     *
+     * @return Permissions[]
+     */
+    public function getPermissions();
+
+    /**
      * Check if the user has a permission.
      *
      * @param string $permission
@@ -71,10 +78,10 @@ interface AuthorizationInterface
     public function can($permission);
 
     /**
-     * Check if the user has permission.
+     * Check if the user has a permission.
      *
      * @param Permissions $permission
-     * @return mixed
+     * @return bool
      */
     public function hasPermission(Permissions $permission);
 }
