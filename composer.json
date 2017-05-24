@@ -25,5 +25,7 @@
         "psr-4": {
             "PhalconRoles\\Tests\\": "tests/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
