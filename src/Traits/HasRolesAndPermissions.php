@@ -28,6 +28,15 @@ trait HasRolesAndPermissions
      */
     protected $permissions;
 
+    /**
+     * Setup a 1-n relation between two models.
+     *
+     * @param $fields
+     * @param $referenceModel
+     * @param $referencedFields
+     * @param null $options
+     * @return \Phalcon\Mvc\Model\Relation
+     */
     protected abstract function hasMany(
         $fields,
         $referenceModel,
@@ -35,6 +44,18 @@ trait HasRolesAndPermissions
         $options = null
     );
 
+    /**
+     * Setup an n-n relation between two models, through an intermediate relation.
+     *
+     * @param $fields
+     * @param $intermediateModel
+     * @param $intermediateFields
+     * @param $intermediateReferencedFields
+     * @param $referenceModel
+     * @param $referencedFields
+     * @param null $options
+     * @return \Phalcon\Mvc\Model\Relation
+     */
     protected abstract function hasManyToMany(
         $fields,
         $intermediateModel,
@@ -45,8 +66,27 @@ trait HasRolesAndPermissions
         $options = null
     );
 
-    protected abstract function getRelated($alias, $arguments = null);
+    /**
+     * Returns the models manager related to the entity instance.
+     *
+     * @return \Phalcon\Mvc\Model\ManagerInterface
+     */
+    public abstract function getModelsManager();
 
+    /**
+     * Returns related records based on defined relations.
+     *
+     * @param string $alias
+     * @param array $arguments
+     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     */
+    public abstract function getRelated($alias, $arguments = null);
+
+    /**
+     * Initialize relations.
+     *
+     * @return void
+     */
     public function hasRolesAndPermissions()
     {
         $this->hasMany(
@@ -68,7 +108,7 @@ trait HasRolesAndPermissions
     }
 
     /**
-     * Return the related roles
+     * Return the related roles.
      *
      * @param array $parameters
      * @return Roles[]
@@ -85,7 +125,7 @@ trait HasRolesAndPermissions
     }
 
     /**
-     * Check if the user has a role
+     * Check if the user has a role.
      *
      * @param string $role
      * @return bool
@@ -173,6 +213,12 @@ trait HasRolesAndPermissions
         return $this->_detachRoles();
     }
 
+    /**
+     * Detach roles based on filter and clear cache.
+     *
+     * @param Closure|null $filter
+     * @return bool
+     */
     protected function _detachRoles(Closure $filter = null) {
         if(!$this->rolesPivot->delete($filter)) {
             return false;
@@ -184,6 +230,8 @@ trait HasRolesAndPermissions
     }
 
     /**
+     * Return the related permissions.
+     *
      * @return Permissions[]
      */
     public function getPermissions()
@@ -217,6 +265,12 @@ trait HasRolesAndPermissions
         return $this->hasPermission(new Permissions(["slug" => $permission]));
     }
 
+    /**
+     * Check if the user has a permission.
+     *
+     * @param Permissions $permission
+     * @return bool
+     */
     public function hasPermission(Permissions $permission)
     {
         $byName = function (Permissions $record) use ($permission) {
@@ -226,6 +280,12 @@ trait HasRolesAndPermissions
         return (bool)array_filter($this->getPermissions(), $byName);
     }
 
+    /**
+     * Put roles into _related property and clear roles cache.
+     *
+     * @param array $roles
+     * @return void
+     */
     private function setRoles(array $roles)
     {
         // getRoles caches the result set inside roles property.
@@ -239,6 +299,13 @@ trait HasRolesAndPermissions
         $this->__set("roles", $roles);
     }
 
+    /**
+     * Returns result set as array of $modelClass instances.
+     *
+     * @param ResultsetInterface $resultset
+     * @param $modelClass
+     * @return array
+     */
     private function toHydratedArrary(ResultsetInterface $resultset, $modelClass)
     {
         return array_map(
