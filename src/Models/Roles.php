@@ -124,11 +124,12 @@ class Roles extends Model
     /**
      * Detach all permissions from a user.
      *
+     * @param Closure|null $filter
      * @return int
      */
-    public function detachAllPermissions()
+    public function detachAllPermissions(Closure $filter = null)
     {
-        return $this->_detachPermissions();
+        return $this->_detachPermissions($filter);
     }
 
     protected function _detachPermissions(Closure $filter = null) {
