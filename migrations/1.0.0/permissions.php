@@ -51,7 +51,8 @@ class PermissionsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_TEXT,
                             'size' => 1,
-                            'after' => 'slug'
+                            'after' => 'slug',
+                            'notNull' => false
                         ]
                     )
                 ],
