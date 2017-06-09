@@ -265,6 +265,18 @@ trait HasRolesAndPermissions
         return $this->hasPermission(new Permissions(["slug" => $permission]));
     }
 
+
+    /**
+     * Check if user is allowed to perform an action that requires permission,
+     *
+     * @param $permission
+     * @return bool
+     */
+    public function isAllowed($permission)
+    {
+        return $this->can($permission);
+    }
+
     /**
      * Check if the user has a permission.
      *

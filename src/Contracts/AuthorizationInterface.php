@@ -78,6 +78,14 @@ interface AuthorizationInterface
     public function can($permission);
 
     /**
+     * Check if user is allowed to perform an action that requires permission,
+     *
+     * @param $permission
+     * @return bool
+     */
+    public function isAllowed($permission);
+
+    /**
      * Check if the user has a permission.
      *
      * @param Permissions $permission
