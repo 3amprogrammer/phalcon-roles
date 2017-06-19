@@ -58,6 +58,33 @@ class RolesTest extends TestCase
         $this->assertTrue($role->hasPermission($permissionB));
     }
 
+    public function testAttachAllPermissionsAcceptsResultset()
+    {
+        /** @var Permissions $permissionA */
+        /** @var Permissions $permissionB */
+        $permissionA = static::$factory->create(Permissions::class);
+        $permissionB = static::$factory->create(Permissions::class);
+
+        $permissions = Permissions::find();
+
+        /** @var Roles $role */
+        $role = static::$factory->create(Roles::class);
+
+        // call to getPermissions caches permissions
+        $role->getPermissions();
+
+        $role->attachAllPermissions($permissions);
+
+        // result in db ok
+        $resultSet = RolesPermissions::find(["role_id", $role->id])->toArray();
+        $this->assertEquals(array_column($resultSet, 'permission_id'), [$permissionA->id, $permissionB->id]);
+
+        // result in model ok
+        $this->assertTrue($role->hasPermission($permissionA));
+        $this->assertTrue($role->hasPermission($permissionB));
+    }
+
+
     public function testAttachAllPermissionsDoesntInsertDuplicates()
     {
         /** @var Permissions $permissionA */

@@ -60,6 +60,32 @@ class HasRolesAndPermissionsTest extends TestCase
         $this->assertTrue($user->hasRole($roleB));
     }
 
+    public function testAttachAllRolesAcceptsResultset()
+    {
+        /** @var Roles $roleA */
+        /** @var Roles $roleB */
+        $roleA = static::$factory->create(Roles::class);
+        $roleB = static::$factory->create(Roles::class);
+
+        $roles = Roles::find();
+
+        /** @var AuthorizationInterface $user */
+        $user = static::$factory->create(Users::class);
+
+        // call to getRoles caches permissions
+        $user->getRoles();
+
+        $user->attachAllRoles($roles);
+
+        // result in db ok
+        $resultSet = RolesUsers::find(["user_id", $user->id])->toArray();
+        $this->assertEquals(array_column($resultSet, "role_id"), [$roleA->id, $roleB->id]);
+
+        // result in model ok
+        $this->assertTrue($user->hasRole($roleA));
+        $this->assertTrue($user->hasRole($roleB));
+    }
+
     public function testAttachAllRolesDoesntInsertDuplicates()
     {
         /** @var Roles $roleA */

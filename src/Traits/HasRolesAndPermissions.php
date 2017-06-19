@@ -3,6 +3,7 @@
 namespace PhalconRoles\Traits;
 
 use Closure;
+use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use PhalconRoles\Models\Permissions;
@@ -170,10 +171,10 @@ trait HasRolesAndPermissions
     /**
      * Attach roles to a user.
      *
-     * @param array $roles
+     * @param Roles[]|ResultInterface $roles
      * @return bool
      */
-    public function attachAllRoles(array $roles)
+    public function attachAllRoles($roles)
     {
         $rolesToAttach = [];
 
@@ -183,7 +184,7 @@ trait HasRolesAndPermissions
             }
         }
 
-        $this->setRoles($roles);
+        $this->setRoles($rolesToAttach);
 
         return $this->save();
     }

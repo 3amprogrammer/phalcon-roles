@@ -2,6 +2,7 @@
 
 namespace PhalconRoles\Contracts;
 
+use Phalcon\Mvc\Model\ResultInterface;
 use PhalconRoles\Models\Permissions;
 use PhalconRoles\Models\Roles;
 
@@ -42,10 +43,10 @@ interface AuthorizationInterface
     /**
      * Attach roles to a user.
      *
-     * @param array $roles
+     * @param Roles[]|ResultInterface $roles
      * @return bool
      */
-    public function attachAllRoles(array $roles);
+    public function attachAllRoles($roles);
 
     /**
      * Detach role from a user.

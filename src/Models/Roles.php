@@ -4,6 +4,7 @@ namespace PhalconRoles\Models;
 
 use Closure;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Roles extends Model
@@ -88,10 +89,10 @@ class Roles extends Model
     /**
      * Attach permissions to a user.
      *
-     * @param array $permissions
+     * @param Permissions[]|ResultInterface $permissions
      * @return bool
      */
-    public function attachAllPermissions(array $permissions)
+    public function attachAllPermissions($permissions)
     {
         $permissionsToAttach = [];
 
@@ -101,7 +102,7 @@ class Roles extends Model
             }
         }
 
-        $this->setPermissions($permissions);
+        $this->setPermissions($permissionsToAttach);
 
         return $this->save();
     }
